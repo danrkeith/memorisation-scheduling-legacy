@@ -4,6 +4,7 @@ import java.util.List;
 public class Book implements Passage {
     private String title;
     private List<Chapter> chapters;
+    private int verses;
 
     public void setTitle(String title) {
         this.title = title;
@@ -14,13 +15,14 @@ public class Book implements Passage {
         for (Chapter chapter : chapters) {
             chapter.setBookTitle(title);
         }
-    }
 
-    public int getVerses() {
-        int verses = 0;
+        verses = 0;
         for (Chapter chapter : chapters) {
             verses += chapter.getVerses();
         }
+    }
+
+    public int getVerses() {
         return verses;
     }
 
@@ -29,7 +31,11 @@ public class Book implements Passage {
 
         int chapterIndex = 0;
         while (chapterIndex < chapters.size()) {
-            if (chapters.get(chapterIndex).getVerses() + chapters.get(chapterIndex + 1).getVerses() > minMaxVersesPerDay) {
+            // Is this the last chapter, or would two chapters be too long?
+            if (
+                chapterIndex == chapters.size() - 1
+                || chapters.get(chapterIndex).getVerses() + chapters.get(chapterIndex + 1).getVerses() > minMaxVersesPerDay
+            ) {
                 // Add single chapter
                 plan.add(chapters.get(chapterIndex));
                 chapterIndex++;
@@ -37,10 +43,13 @@ public class Book implements Passage {
                 // Add multiple chapters
                 ChapterRange chapterRange = new ChapterRange(title);
 
-                while (chapterIndex < chapters.size() && chapterRange.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay) {
+                do {
                     chapterRange.addChapter(chapters.get(chapterIndex));
                     chapterIndex++;
-                }
+                } while (
+                    chapterIndex < chapters.size()
+                    && chapterRange.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay
+                );
 
                 plan.add(chapterRange);
             }

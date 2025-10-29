@@ -4,6 +4,7 @@ import java.util.List;
 public class ChapterRange implements Passage {
     private final String bookTitle;
     private final List<Chapter> chapters = new ArrayList<>();
+    private int verses = 0;
 
     public ChapterRange(String bookTitle) {
         this.bookTitle = bookTitle;
@@ -11,13 +12,10 @@ public class ChapterRange implements Passage {
 
     public void addChapter(Chapter chapter) {
         chapters.add(chapter);
+        verses += chapter.getVerses();
     }
 
     public int getVerses() {
-        int verses = 0;
-        for (Chapter chapter : chapters) {
-            verses += chapter.getVerses();
-        }
         return verses;
     }
 

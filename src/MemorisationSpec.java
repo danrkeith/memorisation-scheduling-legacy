@@ -85,6 +85,6 @@ public class MemorisationSpec {
 
     @Override
     public String toString() {
-        return "Scheduler (" + getVerses() + " verses over " + days + " days)";
+        return "Memorisation Specifications (" + getVerses() + " verses over " + days + " days)";
     }
 }
