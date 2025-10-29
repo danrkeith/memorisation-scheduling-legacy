@@ -1,22 +1,17 @@
-import java.util.ArrayList;
-import java.util.List;
-
-public class ChapterRange implements Passage {
+public class ChapterGroup implements Passage {
     private final String bookTitle;
-    private final List<Chapter> chapters = new ArrayList<>();
-    private int verses = 0;
+    private final PassageList<Chapter> chapters = new PassageArrayList<>();
 
-    public ChapterRange(String bookTitle) {
+    public ChapterGroup(String bookTitle) {
         this.bookTitle = bookTitle;
     }
 
     public void addChapter(Chapter chapter) {
         chapters.add(chapter);
-        verses += chapter.getVerses();
     }
 
     public int getVerses() {
-        return verses;
+        return chapters.getVerses();
     }
 
     @Override

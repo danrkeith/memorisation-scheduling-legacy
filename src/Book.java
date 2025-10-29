@@ -41,17 +41,17 @@ public class Book implements Passage {
                 chapterIndex++;
             } else {
                 // Add multiple chapters
-                ChapterRange chapterRange = new ChapterRange(title);
+                ChapterGroup chapterGroup = new ChapterGroup(title);
 
                 do {
-                    chapterRange.addChapter(chapters.get(chapterIndex));
+                    chapterGroup.addChapter(chapters.get(chapterIndex));
                     chapterIndex++;
                 } while (
                     chapterIndex < chapters.size()
-                    && chapterRange.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay
+                    && chapterGroup.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay
                 );
 
-                plan.add(chapterRange);
+                plan.add(chapterGroup);
             }
         }
 
