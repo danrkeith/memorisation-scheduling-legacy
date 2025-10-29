@@ -6,7 +6,6 @@ import java.util.List;
 public class MemorisationSpec {
     private int days;
     private List<Book> books;
-    private List<Psalm> psalms;
 
     public void setDays(int days) {
         this.days = days;
@@ -14,10 +13,6 @@ public class MemorisationSpec {
 
     public void setBooks(List<Book> books) {
         this.books = books;
-    }
-
-    public void setPsalms(List<Psalm> psalms) {
-        this.psalms = psalms;
     }
 
     public List<Passage> buildPlan() {
@@ -78,9 +73,6 @@ public class MemorisationSpec {
         int verses = 0;
         for (Book book : books) {
             verses += book.getVerses();
-        }
-        for (Psalm psalm : psalms) {
-            verses += psalm.getVerses();
         }
         return verses;
     }
