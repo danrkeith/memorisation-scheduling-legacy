@@ -1,3 +1,5 @@
+package v1;
+
 public class Chapter implements Passage {
     private String bookTitle;
     private int chapter;

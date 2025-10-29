@@ -1,3 +1,6 @@
+import v1.MemorisationSpec;
+import v1.Passage;
+
 import java.util.List;
 
 public class Application {

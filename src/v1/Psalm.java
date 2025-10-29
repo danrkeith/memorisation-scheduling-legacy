@@ -1,3 +1,5 @@
+package v1;
+
 public class Psalm implements Passage {
     private int psalm;
     private int verses;
@@ -16,6 +18,6 @@ public class Psalm implements Passage {
 
     @Override
     public String toString() {
-        return "Psalm " + psalm + " (" + verses + " verses)";
+        return "v1.Psalm " + psalm + " (" + verses + " verses)";
     }
 }

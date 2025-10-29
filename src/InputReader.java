@@ -1,4 +1,5 @@
 import tools.jackson.databind.ObjectMapper;
+import v1.MemorisationSpec;
 
 import java.io.IOException;
 import java.io.InputStream;
