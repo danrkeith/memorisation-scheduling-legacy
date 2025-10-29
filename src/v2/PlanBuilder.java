@@ -2,9 +2,32 @@ package v2;
 
 import v2.model.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PlanBuilder {
+    public static void addPsalmsToPlan(Plan plan, List<Psalm> psalms) {
+        LinkedList<Psalm> descendingPsalms = new LinkedList<>(psalms);
+        descendingPsalms.sort(Comparator.comparing(Psalm::getVerses).reversed());
+
+        List<Day> ascendingDays = new ArrayList<>(plan.getDays());
+        ascendingDays.sort(Comparator.comparing(Day::getVerses));
+
+        while (descendingPsalms.size() >= ascendingDays.size()) {
+            for (Day day : ascendingDays) {
+                day.addPsalm(descendingPsalms.pop());
+            }
+        }
+
+        int i = 0;
+        while (!descendingPsalms.isEmpty()) {
+            ascendingDays.get(i).addPsalm(descendingPsalms.pop());
+            i++;
+        }
+    }
+
     public static Plan buildFromBooks(List<Book> books, int maxVersesPerDay) {
         Plan plan = new Plan();
         for (Book book : books) {

@@ -14,6 +14,10 @@ public class Plan {
         addDay(day);
     }
 
+    public List<Day> getDays() {
+        return days;
+    }
+
     public void addDay(Day d) {
         days.add(d);
     }
@@ -22,10 +26,17 @@ public class Plan {
         days.addAll(plan.days);
     }
 
+    private int getVerses() {
+        return days.stream()
+                .mapToInt(Day::getVerses)
+                .sum();
+    }
+
     @Override
     public String toString() {
-        return IntStream.range(0, days.size())
-                .mapToObj(i -> "Day " + (i + 1) + ": " + days.get(i))
+        return "Plan (" + getVerses() + " verses)\n" +
+                IntStream.range(0, days.size())
+                .mapToObj(i -> "\tDay " + (i + 1) + " (" + days.get(i).getVerses() + " verses): \t" + days.get(i))
                 .collect(Collectors.joining("\n"));
     }
 }

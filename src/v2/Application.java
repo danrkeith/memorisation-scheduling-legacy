@@ -10,6 +10,7 @@ public class Application {
         int maxVersesPerDay = PlanOptimiser.minMaxVersesPerDay(memorisationSpec.getBooks(), memorisationSpec.getDays());
 
         Plan plan = PlanBuilder.buildFromBooks(memorisationSpec.getBooks(), maxVersesPerDay);
+        PlanBuilder.addPsalmsToPlan(plan, memorisationSpec.getPsalms());
 
         System.out.println(plan);
     }
