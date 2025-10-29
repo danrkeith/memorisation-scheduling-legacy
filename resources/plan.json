@@ -1,8 +1,8 @@
 {
-  "days": 7,
+  "days": 14,
   "books": [
     {
-      "book": "Matthew",
+      "title": "Matthew",
       "chapters": [
         {
           "chapter": 1,
@@ -119,7 +119,7 @@
       ]
     },
     {
-      "book": "Ephesians",
+      "title": "Ephesians",
       "chapters": [
         {
           "chapter": 1,

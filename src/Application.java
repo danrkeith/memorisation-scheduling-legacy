@@ -1,7 +1,13 @@
+import java.util.List;
+
 public class Application {
     public static void main(String[] args) {
-        Plan plan = InputReader.read();
+        MemorisationSpec memorisationSpec = InputReader.read();
 
-        System.out.println(plan);
+        List<Passage> plan = memorisationSpec.buildPlan();
+
+        for (Passage passage : plan) {
+            System.out.println(passage);
+        }
     }
 }

@@ -1,4 +1,4 @@
-public class Psalm {
+public class Psalm implements Passage {
     private int psalm;
     private int verses;
 

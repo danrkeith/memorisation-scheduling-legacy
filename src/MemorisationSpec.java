@@ -1,6 +1,7 @@
+import java.util.ArrayList;
 import java.util.List;
 
-public class Plan {
+public class MemorisationSpec {
     private int days;
     private List<Book> books;
     private List<Psalm> psalms;
@@ -17,7 +18,22 @@ public class Plan {
         this.psalms = psalms;
     }
 
-    public int minMaxVersesPerDay() {
+    public List<Passage> buildPlan() {
+        List<Passage> plan = new ArrayList<>();
+        int minMaxVersesPerDay = minMaxVersesPerDay();
+
+        for (Book book : books) {
+            if (book.getVerses() <= minMaxVersesPerDay) {
+                plan.add(book);
+            } else {
+                plan.addAll(book.buildPlan(minMaxVersesPerDay));
+            }
+        }
+
+        return plan;
+    }
+
+    private int minMaxVersesPerDay() {
         return minMaxVersesPerDay(books, days);
     }
 
@@ -69,6 +85,6 @@ public class Plan {
 
     @Override
     public String toString() {
-        return "Plan (" + getVerses() + " verses over " + days + " days)";
+        return "Scheduler (" + getVerses() + " verses over " + days + " days)";
     }
 }

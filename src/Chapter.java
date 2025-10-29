@@ -1,6 +1,15 @@
-public class Chapter {
+public class Chapter implements Passage {
+    private String bookTitle;
     private int chapter;
     private int verses;
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
+
+    public int getChapter() {
+        return chapter;
+    }
 
     public void setChapter(int chapter) {
         this.chapter = chapter;
@@ -16,6 +25,6 @@ public class Chapter {
 
     @Override
     public String toString() {
-        return "Chapter " + chapter + " (" + verses + " verses)";
+        return bookTitle + " " + chapter + " (" + verses + " verses)";
     }
 }

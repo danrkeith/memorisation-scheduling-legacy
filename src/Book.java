@@ -1,15 +1,19 @@
+import java.util.ArrayList;
 import java.util.List;
 
-public class Book {
-    private String book;
+public class Book implements Passage {
+    private String title;
     private List<Chapter> chapters;
 
-    public void setBook(String book) {
-        this.book = book;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setChapters(List<Chapter> chapters) {
         this.chapters = chapters;
+        for (Chapter chapter : chapters) {
+            chapter.setBookTitle(title);
+        }
     }
 
     public int getVerses() {
@@ -18,6 +22,31 @@ public class Book {
             verses += chapter.getVerses();
         }
         return verses;
+    }
+
+    public List<Passage> buildPlan(int minMaxVersesPerDay) {
+        List<Passage> plan = new ArrayList<>();
+
+        int chapterIndex = 0;
+        while (chapterIndex < chapters.size()) {
+            if (chapters.get(chapterIndex).getVerses() + chapters.get(chapterIndex + 1).getVerses() > minMaxVersesPerDay) {
+                // Add single chapter
+                plan.add(chapters.get(chapterIndex));
+                chapterIndex++;
+            } else {
+                // Add multiple chapters
+                ChapterRange chapterRange = new ChapterRange(title);
+
+                while (chapterIndex < chapters.size() && chapterRange.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay) {
+                    chapterRange.addChapter(chapters.get(chapterIndex));
+                    chapterIndex++;
+                }
+
+                plan.add(chapterRange);
+            }
+        }
+
+        return plan;
     }
 
     public int minMaxVersesPerDay(int days) {
@@ -69,6 +98,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return book + " (" + getVerses() + " verses)";
+        return title + " (" + getVerses() + " verses)";
     }
 }
