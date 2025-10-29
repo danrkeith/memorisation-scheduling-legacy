@@ -17,6 +17,45 @@ public class Plan {
         this.psalms = psalms;
     }
 
+    public int minMaxVersesPerDay() {
+        return minMaxVersesPerDay(books, days);
+    }
+
+    private static int minMaxVersesPerDay(List<Book> books, int days) {
+        // Multiple books are not done in one day, so there must be at least as many books as days
+        if (books.size() > days) {
+            return Integer.MAX_VALUE;
+        }
+
+        if (books.size() == 1) {
+            return books.getFirst().minMaxVersesPerDay(days);
+        }
+
+        if (books.size() == days) {
+            int maxVersesPerDay = 0;
+
+            for (Book book : books) {
+                maxVersesPerDay = Integer.max(maxVersesPerDay, book.getVerses());
+            }
+
+            return maxVersesPerDay;
+        }
+
+        int minMaxVersesPerDay = Integer.MAX_VALUE;
+
+        // Alter amount of days given to first book to find minMaxVersesPerDay
+        for (int daysForFirstBook = 1; daysForFirstBook <= days - books.size() + 1; daysForFirstBook++) {
+            int maxVersesPerDay = Integer.max(
+                    books.getFirst().minMaxVersesPerDay(daysForFirstBook),
+                    minMaxVersesPerDay(books.subList(1, books.size()), days - daysForFirstBook)
+            );
+
+            minMaxVersesPerDay = Integer.min(minMaxVersesPerDay, maxVersesPerDay);
+        }
+
+        return minMaxVersesPerDay;
+    }
+
     private int getVerses() {
         int verses = 0;
         for (Book book : books) {
