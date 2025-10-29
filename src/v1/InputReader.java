@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class InputReader {
-    private static final String PLAN_FILENAME = "memorisation_spec.json";
+    private static final String PLAN_FILENAME = "memorisation_spec_v1.json";
 
     public static MemorisationSpec read() {
         try (InputStream inputStream = InputReader.class.getClassLoader().getResourceAsStream(PLAN_FILENAME)) {

@@ -1,13 +1,13 @@
-package v2;
+package v3;
 
 import tools.jackson.databind.ObjectMapper;
-import v2.model.MemorisationSpec;
+import v3.model.MemorisationSpec;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class InputReader {
-    private static final String PLAN_FILENAME = "memorisation_spec_v2.json";
+    private static final String PLAN_FILENAME = "memorisation_spec_v3.json";
 
     public static MemorisationSpec read() {
         try (InputStream inputStream = InputReader.class.getClassLoader().getResourceAsStream(PLAN_FILENAME)) {
