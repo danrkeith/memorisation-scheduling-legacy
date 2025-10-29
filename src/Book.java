@@ -1,34 +1,25 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Book implements Passage {
     private String title;
-    private List<Chapter> chapters;
+    private PassageList<Chapter> chapters;
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setChapters(List<Chapter> chapters) {
+    public void setChapters(PassageList<Chapter> chapters) {
         for (Chapter c : chapters) {
             c.setBookTitle(title);
         }
-        
+
         this.chapters = chapters;
     }
 
     public int getVerses() {
-        int verses = 0;
-
-        for (Chapter chapter : chapters) {
-            verses += chapter.getVerses();
-        }
-
-        return verses;
+        return chapters.getVerses();
     }
 
-    public List<Passage> buildPlan(int minMaxVersesPerDay) {
-        List<Passage> plan = new ArrayList<>();
+    public PassageList<Passage> buildPlan(int minMaxVersesPerDay) {
+        PassageList<Passage> plan = new PassageArrayList<>();
 
         int chapterIndex = 0;
         while (chapterIndex < chapters.size()) {
