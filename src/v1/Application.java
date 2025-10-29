@@ -1,5 +1,4 @@
-import v1.MemorisationSpec;
-import v1.Passage;
+package v1;
 
 import java.util.List;
 
