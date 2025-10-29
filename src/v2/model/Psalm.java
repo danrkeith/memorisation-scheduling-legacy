@@ -1,6 +1,4 @@
-package v2.memorisation_spec;
-
-import v2.Passage;
+package v2.model;
 
 public class Psalm implements Passage {
     private int psalm;
@@ -17,5 +15,10 @@ public class Psalm implements Passage {
     @Override
     public int getVerses() {
         return verses;
+    }
+
+    @Override
+    public String toString() {
+        return "Psalm " + psalm + " (" + verses + " verses)";
     }
 }

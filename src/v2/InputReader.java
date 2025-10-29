@@ -1,7 +1,7 @@
 package v2;
 
 import tools.jackson.databind.ObjectMapper;
-import v2.memorisation_spec.MemorisationSpec;
+import v2.model.MemorisationSpec;
 
 import java.io.IOException;
 import java.io.InputStream;
