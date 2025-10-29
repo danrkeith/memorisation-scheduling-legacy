@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class MemorisationSpec {
@@ -17,8 +18,8 @@ public class MemorisationSpec {
         this.psalms = psalms;
     }
 
-    public PassageList<Passage> buildPlan() {
-        PassageList<Passage> plan = new PassageArrayList<>();
+    public List<Passage> buildPlan() {
+        List<Passage> plan = new ArrayList<>();
         int minMaxVersesPerDay = minMaxVersesPerDay();
 
         for (Book book : books) {

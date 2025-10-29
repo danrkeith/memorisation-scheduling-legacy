@@ -1,25 +1,33 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Book implements Passage {
     private String title;
-    private PassageList<Chapter> chapters;
+    private List<Chapter> chapters;
+    private int verses;
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setChapters(PassageList<Chapter> chapters) {
-        for (Chapter c : chapters) {
-            c.setBookTitle(title);
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
+        for (Chapter chapter : chapters) {
+            chapter.setBookTitle(title);
         }
 
-        this.chapters = chapters;
+        verses = 0;
+        for (Chapter chapter : chapters) {
+            verses += chapter.getVerses();
+        }
     }
 
     public int getVerses() {
-        return chapters.getVerses();
+        return verses;
     }
 
-    public PassageList<Passage> buildPlan(int minMaxVersesPerDay) {
-        PassageList<Passage> plan = new PassageArrayList<>();
+    public List<Passage> buildPlan(int minMaxVersesPerDay) {
+        List<Passage> plan = new ArrayList<>();
 
         int chapterIndex = 0;
         while (chapterIndex < chapters.size()) {
@@ -33,17 +41,17 @@ public class Book implements Passage {
                 chapterIndex++;
             } else {
                 // Add multiple chapters
-                ChapterGroup chapterGroup = new ChapterGroup(title);
+                ChapterRange chapterRange = new ChapterRange(title);
 
                 do {
-                    chapterGroup.addChapter(chapters.get(chapterIndex));
+                    chapterRange.addChapter(chapters.get(chapterIndex));
                     chapterIndex++;
                 } while (
                     chapterIndex < chapters.size()
-                    && chapterGroup.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay
+                    && chapterRange.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay
                 );
 
-                plan.add(chapterGroup);
+                plan.add(chapterRange);
             }
         }
 
