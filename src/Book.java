@@ -1,44 +1,54 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book extends PassageGroup<Chapter> {
+public class Book implements Passage {
     private String title;
+    private List<Chapter> chapters;
+    private int verses;
 
     public void setTitle(String title) {
         this.title = title;
     }
 
     public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
         for (Chapter chapter : chapters) {
             chapter.setBookTitle(title);
         }
 
-        setPassages(chapters);
+        verses = 0;
+        for (Chapter chapter : chapters) {
+            verses += chapter.getVerses();
+        }
+    }
+
+    public int getVerses() {
+        return verses;
     }
 
     public List<Passage> buildPlan(int minMaxVersesPerDay) {
         List<Passage> plan = new ArrayList<>();
 
         int chapterIndex = 0;
-        while (chapterIndex < passages.size()) {
+        while (chapterIndex < chapters.size()) {
             // Is this the last chapter, or would two chapters be too long?
             if (
-                chapterIndex == passages.size() - 1
-                || passages.get(chapterIndex).getVerses() + passages.get(chapterIndex + 1).getVerses() > minMaxVersesPerDay
+                chapterIndex == chapters.size() - 1
+                || chapters.get(chapterIndex).getVerses() + chapters.get(chapterIndex + 1).getVerses() > minMaxVersesPerDay
             ) {
                 // Add single chapter
-                plan.add(passages.get(chapterIndex));
+                plan.add(chapters.get(chapterIndex));
                 chapterIndex++;
             } else {
                 // Add multiple chapters
                 ChapterRange chapterRange = new ChapterRange(title);
 
                 do {
-                    chapterRange.add(passages.get(chapterIndex));
+                    chapterRange.addChapter(chapters.get(chapterIndex));
                     chapterIndex++;
                 } while (
-                    chapterIndex < passages.size()
-                    && chapterRange.getVerses() + passages.get(chapterIndex).getVerses() <= minMaxVersesPerDay
+                    chapterIndex < chapters.size()
+                    && chapterRange.getVerses() + chapters.get(chapterIndex).getVerses() <= minMaxVersesPerDay
                 );
 
                 plan.add(chapterRange);
@@ -76,7 +86,7 @@ public class Book extends PassageGroup<Chapter> {
         int day = 1;
         int versesInDay = 0;
 
-        for (Chapter chapter : passages) {
+        for (Chapter chapter : chapters) {
             if (chapter.getVerses() > maxVersesPerDay) {
                 return Integer.MAX_VALUE;
             }
