@@ -4,20 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChapterGroup implements Passage {
-    private String bookTitle;
+    private final String bookTitle;
     private final List<Chapter> chapters = new ArrayList<>();
 
-    public ChapterGroup(Chapter chapter) {
+    public ChapterGroup(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
+
+    public ChapterGroup(String bookTitle, Chapter chapter) {
+        this(bookTitle);
         this.chapters.add(chapter);
     }
 
-    public ChapterGroup(List<Chapter> chapters) {
+    public ChapterGroup(String bookTitle, List<Chapter> chapters) {
+        this(bookTitle);
         this.chapters.addAll(chapters);
-    }
-
-    // TODO - generate label
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
     }
 
     public void add(Chapter chapter) {
@@ -28,10 +29,9 @@ public class ChapterGroup implements Passage {
         chapters.addAll(chapterGroup.chapters);
     }
 
-    @Override
     public int getVerses() {
         return chapters.stream()
-                .mapToInt(Passage::getVerses)
+                .mapToInt(Chapter::getVerses)
                 .sum();
     }
 
@@ -41,8 +41,10 @@ public class ChapterGroup implements Passage {
             return null;
         }
 
-        return bookTitle + " " + chapters.getFirst().getChapter() + (
+        String chaptersStr = chapters.getFirst().getChapter() + (
                 chapters.size() == 1 ? "" : "-" + chapters.getLast().getChapter()
-            ) + " (" + getVerses() + " verses)";
+        );
+
+        return bookTitle + " " + chaptersStr + " (" + getVerses() + " verses)";
     }
 }

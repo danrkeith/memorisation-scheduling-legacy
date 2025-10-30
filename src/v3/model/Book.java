@@ -3,7 +3,7 @@ package v3.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book {
+public class Book implements Passage {
     private String title;
     private List<Chapter> chapters;
     private List<ChapterGroupRange> chapterGroupRanges;
@@ -45,16 +45,15 @@ public class Book {
             // Is the chapter the first in a group?
             if (groupRange == null) {
                 // No; add chapter alone
-                ChapterGroup chapterGroup = new ChapterGroup(chapter);
-                chapterGroup.setBookTitle(title);
+                ChapterGroup chapterGroup = new ChapterGroup(title, chapter);
                 chapterGroups.add(chapterGroup);
                 i++;
             } else {
                 // Yes; add group
                 ChapterGroup chapterGroup = new ChapterGroup(
+                        title,
                         chapters.subList(groupRange.getStart() - 1, groupRange.getEnd())
                 );
-                chapterGroup.setBookTitle(title);
                 chapterGroups.add(chapterGroup);
 
                 // Skip ahead past grouped chapters
@@ -64,16 +63,21 @@ public class Book {
     }
 
     private ChapterGroupRange findGroupRangeStartingAt(int chapter) {
+        if (chapterGroupRanges == null) {
+            return null;
+        }
+
         for (ChapterGroupRange group : chapterGroupRanges) {
             if (group.getStart() == chapter) {
                 return group;
             }
         }
+
         return null;
     }
 
-    private int getVerses() {
-        return chapters.stream().mapToInt(Passage::getVerses).sum();
+    public int getVerses() {
+        return chapters.stream().mapToInt(Chapter::getVerses).sum();
     }
 
     @Override
