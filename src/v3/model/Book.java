@@ -6,9 +6,9 @@ import java.util.List;
 public class Book {
     private String title;
     private List<Chapter> chapters;
-    private List<ChapterGroup> chapterGroups;
+    private List<ChapterGroupRange> chapterGroupRanges;
 
-    private List<Section> sections;
+    private List<ChapterGroup> chapterGroups;
 
     public String getTitle() {
         return title;
@@ -22,49 +22,49 @@ public class Book {
         this.chapters = chapters;
     }
 
-    public void setChapterGroups(List<ChapterGroup> chapterGroups) {
-        this.chapterGroups = chapterGroups;
+    public void setChapterGroupRanges(List<ChapterGroupRange> chapterGroupRanges) {
+        this.chapterGroupRanges = chapterGroupRanges;
     }
 
-    public List<Section> getSections() {
-        if (sections == null) {
-            buildSections();
+    public List<ChapterGroup> getChapterGroups() {
+        if (chapterGroups == null) {
+            buildChapterGroups();
         }
 
-        return sections;
+        return chapterGroups;
     }
 
-    private void buildSections() {
-        sections = new ArrayList<>();
+    private void buildChapterGroups() {
+        chapterGroups = new ArrayList<>();
 
         int i = 0;
         while (i < chapters.size()) {
             Chapter chapter = chapters.get(i);
-            ChapterGroup group = findGroupStartingAt(i + 1);
+            ChapterGroupRange groupRange = findGroupRangeStartingAt(i + 1);
 
             // Is the chapter the first in a group?
-            if (group == null) {
+            if (groupRange == null) {
                 // No; add chapter alone
-                Section section = new Section(chapter);
-                section.setLabel(title + " " + chapter.getChapter());
-                sections.add(section);
+                ChapterGroup chapterGroup = new ChapterGroup(chapter);
+                chapterGroup.setBookTitle(title);
+                chapterGroups.add(chapterGroup);
                 i++;
             } else {
                 // Yes; add group
-                Section section = new Section(
-                        chapters.subList(group.getStart() - 1, group.getEnd())
+                ChapterGroup chapterGroup = new ChapterGroup(
+                        chapters.subList(groupRange.getStart() - 1, groupRange.getEnd())
                 );
-                section.setLabel(title + " " + group.getStart() + "-" + group.getEnd());
-                sections.add(section);
+                chapterGroup.setBookTitle(title);
+                chapterGroups.add(chapterGroup);
 
                 // Skip ahead past grouped chapters
-                i = group.getEnd();
+                i = groupRange.getEnd();
             }
         }
     }
 
-    private ChapterGroup findGroupStartingAt(int chapter) {
-        for (ChapterGroup group : chapterGroups) {
+    private ChapterGroupRange findGroupRangeStartingAt(int chapter) {
+        for (ChapterGroupRange group : chapterGroupRanges) {
             if (group.getStart() == chapter) {
                 return group;
             }

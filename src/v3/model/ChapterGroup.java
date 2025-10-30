@@ -1,22 +1,48 @@
 package v3.model;
 
-public class ChapterGroup {
-    private int start;
-    private int end;
+import java.util.ArrayList;
+import java.util.List;
 
-    public int getStart() {
-        return start;
+public class ChapterGroup implements Passage {
+    private String bookTitle;
+    private final List<Chapter> chapters = new ArrayList<>();
+
+    public ChapterGroup(Chapter chapter) {
+        this.chapters.add(chapter);
     }
 
-    public void setStart(int start) {
-        this.start = start;
+    public ChapterGroup(List<Chapter> chapters) {
+        this.chapters.addAll(chapters);
     }
 
-    public int getEnd() {
-        return end;
+    // TODO - generate label
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
     }
 
-    public void setEnd(int end) {
-        this.end = end;
+    public void add(Chapter chapter) {
+        chapters.add(chapter);
+    }
+
+    public void add(ChapterGroup chapterGroup) {
+        chapters.addAll(chapterGroup.chapters);
+    }
+
+    @Override
+    public int getVerses() {
+        return chapters.stream()
+                .mapToInt(Passage::getVerses)
+                .sum();
+    }
+
+    @Override
+    public String toString() {
+        if (chapters.isEmpty()) {
+            return null;
+        }
+
+        return bookTitle + " " + chapters.getFirst().getChapter() + (
+                chapters.size() == 1 ? "" : "-" + chapters.getLast().getChapter()
+            ) + " (" + getVerses() + " verses)";
     }
 }

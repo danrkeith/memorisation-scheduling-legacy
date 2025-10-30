@@ -117,7 +117,7 @@
           "verses": 20
         }
       ],
-      "chapterGroups": [
+      "chapterGroupRanges": [
         {
           "start": 5,
           "end": 7
