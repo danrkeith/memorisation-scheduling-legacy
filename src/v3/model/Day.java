@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Day {
-    private Passage mainPassage;
-    private List<Psalm> psalms = new ArrayList<>();
+    private final Passage mainPassage;
+    private final List<Psalm> psalms = new ArrayList<>();
 
     public Day(Passage mainPassage) {
         this.mainPassage = mainPassage;
@@ -20,6 +20,10 @@ public class Day {
         return mainPassage.getVerses() + psalms.stream()
                 .mapToInt(Psalm::getVerses)
                 .sum();
+    }
+
+    public String getPassages() {
+        return toString();
     }
 
     @Override

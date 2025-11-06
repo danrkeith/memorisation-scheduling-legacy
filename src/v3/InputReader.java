@@ -1,23 +1,20 @@
 package v3;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 import v3.model.MemorisationSpec;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
 
 public class InputReader {
-    private static final String PLAN_FILENAME = "memorisation_spec_v3.json";
+    public static MemorisationSpec read(String filename) {
+        ObjectMapper mapper = new ObjectMapper();
 
-    public static MemorisationSpec read() {
-        try (InputStream inputStream = InputReader.class.getClassLoader().getResourceAsStream(PLAN_FILENAME)) {
-            if (inputStream == null) {
-                throw new RuntimeException("Resource not found: " + PLAN_FILENAME);
-            }
+        File file = new File(filename);
 
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(inputStream, MemorisationSpec.class);
-        } catch (IOException e) {
+        try {
+            return mapper.readValue(file, MemorisationSpec.class);
+        } catch (JacksonException e) {
             throw new RuntimeException(e);
         }
     }
